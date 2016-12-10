@@ -24,25 +24,51 @@ public class Condition implements Listener{
             if (ing) {
                 switch (objective[0]){
                     case "killmob":
-                        if (e.getEntity().getCustomName().equals(objective[1])) {
-                            if (data < Integer.parseInt(objective[2])) {
-                                Main.data.set(p.getName() + "." + name + "-data", data + 1);
-                                try {
-                                    Main.data.save(Main.datafile);
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
+                        if(e.getEntity().getCustomName() == null){
+                            if (e.getEntity().getType().name().equals(objective[1])) {
+                                if (data < Integer.parseInt(objective[2])) {
+                                    Main.data.set(p.getName() + "." + name + "-data", data + 1);
+                                    try {
+                                        Main.data.save(Main.datafile);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                                if (data == Integer.parseInt(objective[2])) {
+                                    p.sendMessage(Main.PREFIX + "§6" + name + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
+                                    Main.data.set(p.getName() + "." + name + "-data", null);
+                                    Main.data.set(p.getName() + ".temp-questname", null);
+                                    Main.data.set(p.getName() + "." + name + "-ing", null);
+                                    Main.data.set(p.getName() + "." + name + "-done", true);
+                                    try {
+                                        Main.data.save(Main.datafile);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
                                 }
                             }
-                            if (data == Integer.parseInt(objective[2])) {
-                                p.sendMessage(Main.PREFIX + "§6" + name + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
-                                Main.data.set(p.getName() + "." + name + "-data", null);
-                                Main.data.set(p.getName() + ".temp-questname", null);
-                                Main.data.set(p.getName() + "." + name + "-ing", null);
-                                Main.data.set(p.getName() + "." + name + "-done", true);
-                                try {
-                                    Main.data.save(Main.datafile);
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
+                        }
+                        else {
+                            if (e.getEntity().getCustomName().equals(objective[1])) {
+                                if (data < Integer.parseInt(objective[2])) {
+                                    Main.data.set(p.getName() + "." + name + "-data", data + 1);
+                                    try {
+                                        Main.data.save(Main.datafile);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                                if (data == Integer.parseInt(objective[2])) {
+                                    p.sendMessage(Main.PREFIX + "§6" + name + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
+                                    Main.data.set(p.getName() + "." + name + "-data", null);
+                                    Main.data.set(p.getName() + ".temp-questname", null);
+                                    Main.data.set(p.getName() + "." + name + "-ing", null);
+                                    Main.data.set(p.getName() + "." + name + "-done", true);
+                                    try {
+                                        Main.data.save(Main.datafile);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
                                 }
                             }
                         }
