@@ -1,7 +1,6 @@
 package kr.kgaons.questgui;
 
 import kr.kgaons.questgui.commands.QuestCommand;
-import kr.kgaons.questgui.quest.Condition;
 import kr.kgaons.questgui.quest.Event;
 import kr.kgaons.questgui.utils.Util;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,11 +28,12 @@ public class Main extends JavaPlugin{
     public void onEnable(){
         Util.plon(log,"QuestGUI",VERSION);
         Util.serverOnlineOffline();
-        getServer().getPluginManager().registerEvents(new Event(), this);
-        getServer().getPluginManager().registerEvents(new Condition(), this);
+        registerEvents();
         getCommand("quest").setExecutor(new QuestCommand());
         LoadMultiConfig();
-
+    }
+    public void registerEvents(){
+        getServer().getPluginManager().registerEvents(new Event(), this);
     }
     private void LoadMultiConfig() {
         config = YamlConfiguration.loadConfiguration(file);
@@ -66,6 +67,13 @@ public class Main extends JavaPlugin{
         catch (Exception localException)
         {
             localException.printStackTrace();
+        }
+    }
+    public static void saveconfig(){
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     public void onDisable(){
