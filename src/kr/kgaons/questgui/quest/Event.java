@@ -28,13 +28,14 @@ public class Event implements Listener{
         Player p = e.getPlayer();
         if(Main.data.get(p.getName()) == null){
             Main.data.set(p.getName() + ".temp","TEMP");
-            Util.logout(Logger.getLogger(""),"[QuestGUI] " + p.getName() + "'s QuestData file made.");
+            Main.saveconfig();
+            Util.logout(Logger.getLogger(""),"[QuestGUI] " + p.getName() + "님의 퀘스트 데이터 파일이 생성되었습니다.");
         }
     }
     @EventHandler
     public void onClick(InventoryClickEvent e){
         Player p = (Player) e.getWhoClicked();
-        if(e.getInventory().getTitle().contains("QUEST | ")){
+        if(e.getInventory().getTitle().contains("QUEST| ")){
             e.setCancelled(true);
             if(e.getSlot() == 13){
                 String name = e.getInventory().getTitle().replace("QUEST| ","");
@@ -71,11 +72,7 @@ public class Event implements Listener{
                                             Util.SoundPlayer(p, Sound.UI_BUTTON_CLICK, (float) 1.0, (float) 1.0);
                                             p.updateInventory();
                                             size.put(p.getUniqueId(), size.get(p.getUniqueId()) + 1);
-                                            switch (reward[0]) {
-                                                case "item":
-                                                    p.getInventory().addItem(new MaterialData(Integer.parseInt(reward[1]), (byte) Integer.parseInt(reward[2])).toItemStack(Integer.parseInt(reward[3])));
-                                                    break;
-                                            }
+                                            Rewards.giveReward(p,name);
                                             Main.data.set(p.getName() + "." + name + "-npcdone", true);
                                             try {
                                                 Main.data.save(Main.datafile);
@@ -143,11 +140,7 @@ public class Event implements Listener{
                                         Util.SoundPlayer(p, Sound.UI_BUTTON_CLICK, (float) 1.0, (float) 1.0);
                                         p.updateInventory();
                                         size.put(p.getUniqueId(), size.get(p.getUniqueId()) + 1);
-                                        switch (reward[0]) {
-                                            case "item":
-                                                p.getInventory().addItem(new MaterialData(Integer.parseInt(reward[1]), (byte) Integer.parseInt(reward[2])).toItemStack(Integer.parseInt(reward[3])));
-                                                break;
-                                        }
+                                        Rewards.giveReward(p,name);
                                         Main.data.set(p.getName() + "." + name + "-npcdone", true);
                                         try {
                                             Main.data.save(Main.datafile);
@@ -219,11 +212,7 @@ public class Event implements Listener{
                                            Util.SoundPlayer(p, Sound.UI_BUTTON_CLICK, (float) 1.0, (float) 1.0);
                                            p.updateInventory();
                                            size.put(p.getUniqueId(), size.get(p.getUniqueId()) + 1);
-                                           switch (reward[0]) {
-                                               case "item":
-                                                   p.getInventory().addItem(new MaterialData(Integer.parseInt(reward[1]), (byte) Integer.parseInt(reward[2])).toItemStack(Integer.parseInt(reward[3])));
-                                                   break;
-                                           }
+                                           Rewards.giveReward(p,name);
                                            Main.data.set(p.getName() + "." + name + "-npcdone", true);
                                            try {
                                                Main.data.save(Main.datafile);
