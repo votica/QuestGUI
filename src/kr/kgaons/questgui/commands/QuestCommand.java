@@ -21,10 +21,15 @@ public class QuestCommand implements CommandExecutor{
         if(cs instanceof Player) {
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("open")) {
-                    if (args.length > 2) {
-                        QGUI.openGUI(args[1],Bukkit.getPlayerExact(args[2]));
-                    } else {
-                        p.sendMessage(Main.PREFIX + "§c사용법: /quest open <name> <player>");
+                    if(Bukkit.getPlayerExact(args[2]).isOnline()) {
+                        if (args.length > 2) {
+                            QGUI.openGUI(args[1], Bukkit.getPlayerExact(args[2]));
+                        } else {
+                            p.sendMessage(Main.PREFIX + "§c사용법: /quest open <name> <player>");
+                        }
+                    }
+                    else{
+                        p.sendMessage(Main.PREFIX + "§c해당 플레이어는 온라인이 아닙니다!");
                     }
                 }
                 if(args[0].equalsIgnoreCase("reload")){

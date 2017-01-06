@@ -1,10 +1,15 @@
 package kr.kgaons.questgui;
 
 import kr.kgaons.questgui.commands.QuestCommand;
+import kr.kgaons.questgui.condition.BlockBreak;
+import kr.kgaons.questgui.condition.DoCmd;
+import kr.kgaons.questgui.condition.Eating;
+import kr.kgaons.questgui.condition.MobKill;
 import kr.kgaons.questgui.quest.Event;
 import kr.kgaons.questgui.utils.Util;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -22,18 +27,22 @@ public class Main extends JavaPlugin{
     public static File datafile = new File("plugins/" + "QuestGUI" + "/QuestDatas.yml");
     public static FileConfiguration data;
     private Logger log = Logger.getLogger("");
-    private final double VERSION = 1.0;
+    private final double VERSION = 1.1;
     public static String PREFIX = "§f[§a가온§f] §r";
 
     public void onEnable(){
         Util.plon(log,"QuestGUI",VERSION);
         Util.serverOnlineOffline();
-        registerEvents();
+        registerEvents(this);
         getCommand("quest").setExecutor(new QuestCommand());
         LoadMultiConfig();
     }
-    public void registerEvents(){
-        getServer().getPluginManager().registerEvents(new Event(), this);
+    public void registerEvents(Plugin p){
+        getServer().getPluginManager().registerEvents(new Event(), p);
+        getServer().getPluginManager().registerEvents(new MobKill(), p);
+        getServer().getPluginManager().registerEvents(new DoCmd(), p);
+        getServer().getPluginManager().registerEvents(new BlockBreak(), p);
+        getServer().getPluginManager().registerEvents(new Eating(), p);
     }
     private void LoadMultiConfig() {
         config = YamlConfiguration.loadConfiguration(file);

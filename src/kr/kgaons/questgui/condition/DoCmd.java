@@ -2,13 +2,17 @@ package kr.kgaons.questgui.condition;
 
 import kr.kgaons.questgui.Main;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChatTabCompleteEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 /**
  * Created by SkyLightQP on 2017-01-05.
  */
 public class DoCmd extends CAbstract implements Listener {
+    public DoCmd(){}
     public DoCmd(Player player, String QuestName) {
         super(player, QuestName);
     }
@@ -20,10 +24,12 @@ public class DoCmd extends CAbstract implements Listener {
     public int getData() {
         return 0;
     }
+
     public String getCommand(){
         return Main.config.getString("Quests." + QuestName + ".objective").split(":")[1];
     }
-    public void onDoCmd(PlayerCommandPreprocessEvent e){
+    @EventHandler
+    public void onEvent(PlayerCommandPreprocessEvent e){
         DoCmd dc = new DoCmd(e.getPlayer(), Main.data.getString(e.getPlayer().getName() + ".temp-questname"));
         Player p = e.getPlayer();
         if(dc.isGoing() && dc.isObjective()){

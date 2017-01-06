@@ -2,6 +2,7 @@ package kr.kgaons.questgui.condition;
 
 import kr.kgaons.questgui.Main;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 /**
  * Created by SkyLightQP on 2017-01-05.
@@ -9,12 +10,12 @@ import org.bukkit.entity.Player;
 abstract class CAbstract {
     protected Player player;
     protected String QuestName;
+    protected CAbstract(){}
     public CAbstract(Player player, String QuestName){
         this.player = player;
         this.QuestName = QuestName;
     }
     abstract public String getObjective();
-
     public boolean isGoing() {
         return Main.data.getBoolean(player.getName() + "." + QuestName + "-ing");
     }

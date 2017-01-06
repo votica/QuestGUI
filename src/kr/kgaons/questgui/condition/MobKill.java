@@ -10,7 +10,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
  * Created by SkyLightQP on 2017-01-05.
  */
 public class MobKill extends CAbstract implements Listener{
-    public MobKill(Player player,String QuestName) {
+    public MobKill(){}
+    public MobKill(Player player, String QuestName) {
         super(player,QuestName);
     }
     @Override
@@ -25,7 +26,7 @@ public class MobKill extends CAbstract implements Listener{
         return Main.config.getString("Quests." + QuestName + ".objective").split(":")[1];
     }
     @EventHandler
-    public void Event(EntityDeathEvent e){
+    public void onEvent(EntityDeathEvent e){
         MobKill mk = new MobKill(e.getEntity().getKiller(),Main.data.getString(e.getEntity().getKiller().getName() + ".temp-questname"));
         Player p = e.getEntity().getKiller();
         if(p.isOnline() && mk.isGoing() && mk.isObjective()){
