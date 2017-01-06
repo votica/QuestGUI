@@ -19,14 +19,14 @@ abstract class CAbstract {
     public boolean isGoing() {
         return Main.data.getBoolean(player.getName() + "." + QuestName + "-ing");
     }
-    public boolean isObjective(){return getObjective() == Main.config.getString("Quests." + QuestName + ".objective").split(":")[1];}
+    public boolean isObjective(){return getObjective().equals(Main.config.getString("Quests." + QuestName + ".objective").split(":")[0]);}
     public boolean isDone() {
         return Main.data.getBoolean(player.getName() + "." + QuestName + "-done");
     }
     public int getNowData() {
         return Main.data.getInt(player.getName() + "." + QuestName + "-data");
     }
-    abstract public int getData();
+    abstract public int getData(String QuestName);
     public String getQuestName() {
         return QuestName;
     }

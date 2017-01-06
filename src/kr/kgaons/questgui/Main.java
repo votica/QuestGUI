@@ -79,6 +79,7 @@ public class Main extends JavaPlugin{
         }
     }
     public static void saveconfig(){
+        config = YamlConfiguration.loadConfiguration(file);
         try {
             config.save(file);
         } catch (IOException e) {

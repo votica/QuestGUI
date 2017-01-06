@@ -23,22 +23,23 @@ public class Eating extends CAbstract implements Listener {
     }
 
     @Override
-    public int getData() {
+    public int getData(String QuestName) {
         return Integer.parseInt(Main.config.getString("Quests." + QuestName + ".objective").split(":")[2]);
     }
-    public String getFood(){ return Main.config.getString("Quests." + QuestName + ".objective").split(":")[1]; }
+    public String getFood(String QuestName){ return Main.config.getString("Quests." + QuestName + ".objective").split(":")[1]; }
     @EventHandler
     public void onEvent(PlayerItemConsumeEvent e){
-        Eating ee = new Eating(e.getPlayer(), Main.data.getString(e.getPlayer().getName() + ".temp-questname"));
+        String QuestName = Main.data.getString(e.getPlayer().getName() + ".temp-questname");
+        Eating ee = new Eating(e.getPlayer(), QuestName);
         Player p = e.getPlayer();
         if(ee.isGoing() && ee.isObjective()){
             if(e.getItem().getItemMeta().hasDisplayName()){
-                if(e.getItem().getItemMeta().getDisplayName().equals(ee.getFood())){
-                    if(ee.getNowData() < ee.getData()){
+                if(e.getItem().getItemMeta().getDisplayName().equals(ee.getFood(QuestName))){
+                    if(ee.getNowData() < ee.getData(QuestName)){
                         Main.data.set(p.getName() + "." + ee.getQuestName() + "-data", ee.getNowData() + 1);
                         Main.saveconfig();
                     }
-                    else if(ee.getNowData() == ee.getData()){
+                    else if(ee.getNowData() == ee.getData(QuestName)){
                         p.sendMessage(Main.PREFIX + "§6" + ee.getQuestName() + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
                         Main.data.set(p.getName() + "." + ee.getQuestName() + "-data", null);
                         Main.data.set(p.getName() + ".temp-questname", null);
@@ -49,12 +50,12 @@ public class Eating extends CAbstract implements Listener {
                 }
             }
             else{
-                if(e.getItem().getTypeId() == Integer.parseInt(ee.getFood())){
-                    if(ee.getNowData() < ee.getData()){
+                if(e.getItem().getTypeId() == Integer.parseInt(ee.getFood(QuestName))){
+                    if(ee.getNowData() < ee.getData(QuestName)){
                         Main.data.set(p.getName() + "." + ee.getQuestName() + "-data", ee.getNowData() + 1);
                         Main.saveconfig();
                     }
-                    else if(ee.getNowData() == ee.getData()){
+                    else if(ee.getNowData() == ee.getData(QuestName)){
                         p.sendMessage(Main.PREFIX + "§6" + ee.getQuestName() + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
                         Main.data.set(p.getName() + "." + ee.getQuestName() + "-data", null);
                         Main.data.set(p.getName() + ".temp-questname", null);

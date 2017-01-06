@@ -22,23 +22,24 @@ public class BlockBreak extends CAbstract implements Listener{
     }
 
     @Override
-    public int getData() {
+    public int getData(String QuestName) {
         return Integer.parseInt(Main.config.getString("Quests." + QuestName + ".objective").split(":")[2]);
     }
-    public String getBlockCode(){
+    public String getBlockCode(String QuestName){
         return Main.config.getString("Quests." + QuestName + ".objective").split(":")[1];
     }
     @EventHandler
     public void onEvent(BlockBreakEvent e){
-        BlockBreak bb = new BlockBreak(e.getPlayer(), Main.data.getString(e.getPlayer().getName() + ".temp-questname"));
+        String QuestName = Main.data.getString(e.getPlayer().getName() + ".temp-questname");
+        BlockBreak bb = new BlockBreak(e.getPlayer(), QuestName);
         Player p = e.getPlayer();
         if(bb.isGoing() && bb.isObjective()){
-            if(e.getBlock().getTypeId() == Integer.parseInt(bb.getBlockCode())){
-                if(bb.getNowData() < bb.getData()){
+            if(e.getBlock().getTypeId() == Integer.parseInt(bb.getBlockCode(QuestName))){
+                if(bb.getNowData() < bb.getData(QuestName)){
                     Main.data.set(p.getName() + "." + bb.getQuestName() + "-data", bb.getNowData() + 1);
                     Main.saveconfig();
                 }
-                else if(bb.getNowData() == bb.getData()){
+                else if(bb.getNowData() == bb.getData(QuestName)){
                     p.sendMessage(Main.PREFIX + "§6" + bb.getQuestName() + "퀘스트를 완료 하였습니다! NPC에게 찾아가보세요!");
                     Main.data.set(p.getName() + "." + bb.getQuestName() + "-data", null);
                     Main.data.set(p.getName() + ".temp-questname", null);
